@@ -20,8 +20,8 @@ $ google-ime-skk-py
 ```
  -p, --port 55000                             Listen port number
  -h, --host "0.0.0.0"                         Listen hostname
+ -x, --proxy "http://proxy.example.com:8080"  HTTP Proxy Server
 ```
-
 
 ## Emacsにおけるddskkの設定
 `init.el`等に以下を追加
@@ -35,6 +35,9 @@ $ google-ime-skk-py
 
 ;; 辞書サーバのポート番号
 (setq skk-server-portnum 55000)
+
+;; Proxy(必要な場合)
+(setenv "http_proxy" "http://proxy.example.com:8080")
 ```
 
 ## 参考ページ

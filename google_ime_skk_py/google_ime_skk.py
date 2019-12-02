@@ -68,6 +68,7 @@ def google_transliterate(text):
 
 
 class TCPRequestHandler(BaseRequestHandler):
+
     def handle(self):
         while True:
             data = self.request.recv(BUFSIZE)
@@ -104,8 +105,13 @@ class TCPRequestHandler(BaseRequestHandler):
                     break
 
 
-def start_skk_server(host='127.0.0.1', port=55000):
+def start_skk_server(host='127.0.0.1', port=55000, proxy=None):
     """SKK辞書サーバーを立てる"""
+
+    if proxy:
+        proxy_handler = urllib.request.ProxyHandler({'http': proxy})
+        opener = urllib.request.build_opener(proxy_handler)
+        urllib.request.install_opener(opener)
 
     ThreadingTCPServer.allow_reuse_address = True
     with ThreadingTCPServer((host, port), TCPRequestHandler) as server:
@@ -118,9 +124,10 @@ def main():
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('-p', '--port', default=55000, help='Listen port number')
     parser.add_argument('-h', '--host', default='0.0.0.0', help='Listen hostname')
+    parser.add_argument('-x', '--proxy', default=None, help='HTTP Proxy Server')
     args = parser.parse_args()
 
-    start_skk_server(args.host, int(args.port))
+    start_skk_server(args.host, int(args.port), args.proxy)
 
 
 if __name__ == '__main__':
