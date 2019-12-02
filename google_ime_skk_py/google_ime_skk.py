@@ -82,9 +82,6 @@ class TCPRequestHandler(BaseRequestHandler):
 
                 flag = data[0]
 
-                if flag == '0':
-                    break
-
                 if flag == '1':
                     try:
                         # Google CGI API for Japaneseに投げる
@@ -92,6 +89,7 @@ class TCPRequestHandler(BaseRequestHandler):
                         self.request.sendall(bytes(f'1/{candidates}\n', 'euc-jp'))
                     except Exception as e:
                         print(e)
+                        break  # エラーが起きたら接続を閉じる
 
                 elif flag == '2':
                     self.request.sendall(bytes(f'{VERSION_STRING}', 'euc-jp'))
@@ -100,6 +98,10 @@ class TCPRequestHandler(BaseRequestHandler):
                     host = socket.gethostname()
                     ip = socket.gethostbyname(host)
                     self.request.sendall(bytes(f'{host}:{ip}', 'euc-jp'))
+
+                else:
+                    # 1, 2, 3以外のリクエストが来たら異常なので接続を閉じる
+                    break
 
 
 def start_skk_server(host='127.0.0.1', port=55000):
