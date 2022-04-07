@@ -48,4 +48,4 @@ https://github.com/hitode909/google-ime-skk
 https://github.com/skk-dev/ddskk/blob/master/skk-server.el
 
 ## Copyright
-Copyright (c) 2019 chaploud. See LICENSE.txt for further details.
+Copyright (c) 2022 chaploud. See LICENSE.txt for further details.

@@ -3,7 +3,7 @@
 google-ime-skk.py
 
 Google IME SKK Server written in Python
-Python 3.6.6で動作確認済み
+Python 3.6.6, 3.9.10で動作確認済み
 
   ddskkの仕様
   ▼へんかん と変換をし、キャッシュされている候補を表示しつくした場合はまず辞書サーバを読みにいく
@@ -59,7 +59,7 @@ def google_transliterate(text):
     params = urllib.parse.urlencode(query_dict)
     url = 'http://www.google.com/transliterate?' + params
 
-    res = urllib.request.urlopen(url, timeout=1)
+    res = urllib.request.urlopen(url, timeout=5)
     res = res.read().decode().replace("\n", "").replace(",]", "]")
 
     candidates = '/'.join(json.loads(res)[0][1])
